@@ -1,0 +1,37 @@
+
+CREATE TABLE users (
+  username varchar(15),
+  password text,
+  enabled boolean,
+  PRIMARY KEY (username)
+) ;
+
+CREATE TABLE authorities (
+  username varchar(15),
+  authority varchar(25),
+  FOREIGN KEY (username) references users(username)
+) ;
+
+INSERT INTO users (username, password, enabled) VALUES
+	('murad', '{noop}murad12345', true),
+	('lyaman', '{noop}ll112233', true),
+	('admin', '{noop}admin', true);
+
+INSERT INTO authorities (username, authority) VALUES
+	('murad', 'ROLE_EMPLOYEE'),
+	('lyaman', 'ROLE_HR'),
+    ('admin', 'ROLE_HR'),
+	('admin', 'ROLE_MANAGER');
+
+-------------------------------------------------------------
+
+update users set enabled = false where username = 'murad';
+
+update users set password = '{bcrypt}$2a$12$p8LANd/M.JE6VBuyR5DBL.7uiotR/ycloXwTH.m3/oHsdf0xMQeNy' where username = 'murad';
+update users set password = '{bcrypt}$2a$12$ALrOLakmbGR7gQXmGaSWXOpV8VFt0TYbIiCHUY4Joh8sjaC.5Wxom' where username = 'lyaman';
+update users set password = '{bcrypt}$2a$12$MpFRJJaRGV6Z2JH9J7Z4ke4VJxgDN.zCqm1v7cENSrxHK6VUA9/ge' where username = 'admin';
+
+select * from users;
+select * from authorities;
+
+----------------------------------------------------------------------------------------------------------
